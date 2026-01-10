@@ -48,46 +48,18 @@ This repository provisions the core Azure platform layer — resource group, net
 
 ## 📁 Project Structure
 az-infra-4-bank-of-anthos/
-├── backend.tf          # Terraform backend (remote state)
-├── provider.tf         # Azure provider configuration
-├── main.tf             # Root module wiring
-├── variables.tf        # Input variables
-├── outputs.tf          # Output values
-├── resource-rg.tf      # Resource Group definition
+├── backend.tf          
+├── provider.tf         
+├── main.tf            
+├── variables.tf        
+├── outputs.tf          
+├── resource-rg.tf      
 └── modules/
-    ├── aks/            # AKS module
-    ├── keyvault/       # Azure Key Vault module
-    └── serviceprincipal/ # Service Principal & RBAC
+    ├── aks/            
+    ├── keyvault/       
+    └── serviceprincipal/ 
 
-## ⚡ Quick Start
 
-### 1. Clone the repository
-
-bash
-git clone https://github.com/moshstaq/az-infra-4-bank-of-anthos.git
-cd az-infra-4-bank-of-anthos 
-### 2. Authenticate with Azure
-az login
-az account set --subscription "<YOUR_SUBSCRIPTION_ID>"
-### 3. Initialize Terraform
-terraform init
-### 4. Configure variables
-Create a terraform.tfvars file:
-resource_group_name = "rg-bank-of-anthos"
-location            = "uksouth"
-aks_cluster_name    = "aks-bank-of-anthos"
-node_count          = 3
-vm_size             = "Standard_D2s_v3"
-### 5. Deploy infrastructure
-terraform plan -out=tfplan
-terraform apply tfplan
-### 6. Connect to AKS
-az aks get-credentials --resource-group rg-bank-of-anthos --name aks-bank-of-anthos
-kubectl get nodes
-### 7. Deploy Bank of Anthos
-kubectl apply -f k8s/bank-of-anthos/
-### 8. 🧹 Cleanup
-terraform destroy
 
 👤 Author
 Moshood (moshstaq)
