@@ -6,6 +6,8 @@
 
 Production-grade Azure infrastructure to deploy Google's [Bank of Anthos](https://github.com/GoogleCloudPlatform/bank-of-anthos) microservices application on Azure Kubernetes Service (AKS).
 
+This repository provisions the core Azure platform layer — resource group, networking, identity, security, and AKS — while Kubernetes manifests for Bank of Anthos are applied after cluster creation.
+
 ---
 
 ## 🏗️ Architecture
@@ -24,11 +26,12 @@ Production-grade Azure infrastructure to deploy Google's [Bank of Anthos](https:
 ## 🚀 Features
 
 - **Infrastructure as Code** — Fully automated deployment using Terraform
-- **AKS Cluster** — Managed Kubernetes with configurable node pools
-- **Azure Key Vault** — Secure secrets management integrated with AKS
-- **Service Principal** — RBAC-based authentication for secure access
+- **Modular Design** — AKS, Key Vault, and Service Principal are isolated into reusable modules.
+- **Secure Identity & Access** — Service Principal with role-based access control (RBAC).
+- **Secrets Management** — Azure Key Vault for sensitive configuration data.
 - **Network Security** — Virtual network with subnet segmentation
 - **Scalability** — Cluster autoscaler enabled for dynamic workloads
+- - **State Management** - Remote backend configuration for Terraform state.
 
 ---
 
@@ -45,48 +48,16 @@ Production-grade Azure infrastructure to deploy Google's [Bank of Anthos](https:
 
 ## 📁 Project Structure
 az-infra-4-bank-of-anthos/
-│
-├── main.tf # Root module and provider configuration
-├── variables.tf # Input variables
-├── outputs.tf # Output values
-├── terraform.tfvars # Variable values (gitignored)
-│
-├── modules/
-│ ├── aks/ # AKS cluster module
-│ ├── keyvault/ # Key Vault module
-│ └── ServicePrincipal/ # Service Principal identity module
-
-
-## 🚀 Features
-
-- **Infrastructure as Code** — Fully automated deployment using Terraform
-- **AKS Cluster** — Managed Kubernetes with configurable node pools
-- **Azure Key Vault** — Secure secrets management integrated with AKS
-- **Service Principal** — RBAC-based authentication for secure access
-- **Network Security** — Virtual network with subnet segmentation
-- **Scalability** — Cluster autoscaler enabled for dynamic workloads
-
-## 📋 Prerequisites
-
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) (v2.50+)
-- [Terraform](https://www.terraform.io/downloads) (v1.0+)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/)
-- Azure subscription with Owner/Contributor access
-
-## 📁 Project Structure
-az-infra-4-bank-of-anthos/
-├── main.tf # Root module and provider configuration
-├── variables.tf # Input variables
-├── outputs.tf # Output values
-├── terraform.tfvars # Variable values (gitignored)
-├── modules/
-│ ├── aks/ # AKS cluster module
-│ ├── keyvault/ # Key Vault module
-│ └── ServicePrincipal/ # Identity
-├── scripts/
-│ └── deploy.sh # Deployment helper script
-└── k8s/
-└── bank-of-anthos/ # Kubernetes manifests
+├── backend.tf          # Terraform backend (remote state)
+├── provider.tf         # Azure provider configuration
+├── main.tf             # Root module wiring
+├── variables.tf        # Input variables
+├── outputs.tf          # Output values
+├── resource-rg.tf      # Resource Group definition
+└── modules/
+    ├── aks/            # AKS module
+    ├── keyvault/       # Azure Key Vault module
+    └── serviceprincipal/ # Service Principal & RBAC
 
 ## ⚡ Quick Start
 
@@ -115,7 +86,7 @@ az aks get-credentials --resource-group rg-bank-of-anthos --name aks-bank-of-ant
 kubectl get nodes
 ### 7. Deploy Bank of Anthos
 kubectl apply -f k8s/bank-of-anthos/
-🧹 Cleanup
+### 8. 🧹 Cleanup
 terraform destroy
 
 👤 Author
