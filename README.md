@@ -6,7 +6,7 @@
 
 Production-grade Azure infrastructure to deploy Google's [Bank of Anthos](https://github.com/GoogleCloudPlatform/bank-of-anthos) microservices application on Azure Kubernetes Service (AKS).
 
-This repository provisions the core Azure platform layer — resource group, networking, identity, security, and AKS — while Kubernetes manifests for Bank of Anthos are applied after cluster creation.
+This repository provisions the core Azure platform layer — resource group, networking, identity, security, and AKS. While the Kubernetes manifests for Bank of Anthos are applied after cluster creation.
 
 ---
 
