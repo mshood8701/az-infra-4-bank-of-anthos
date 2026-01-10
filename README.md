@@ -1,31 +1,89 @@
-##Azure Infrastructure for Bank of Anthos
-Overview
-This repository contains Infrastructure as Code (IaC) for deploying the Bank of Anthos application on Microsoft Azure. Bank of Anthos is a sample banking application that demonstrates modern microservices architecture patterns.
+# Azure Infrastructure for Bank of Anthos
 
-#Architecture
-The infrastructure provisions the necessary Azure resources to host and run the Bank of Anthos microservices application, including compute, networking, storage, and database components.
+[![Terraform](https://img.shields.io/badge/Terraform-1.x-purple?logo=terraform)](https://www.terraform.io/)
+[![Azure](https://img.shields.io/badge/Azure-AKS-blue?logo=microsoftazure)](https://azure.microsoft.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Prerequisites
-Azure CLI installed and configured
-Terraform (if using Terraform-based deployment)
-An active Azure subscription
-Appropriate Azure RBAC permissions to create resources
+Production-grade Azure infrastructure to deploy Google's [Bank of Anthos](https://github.com/GoogleCloudPlatform/bank-of-anthos) microservices application on Azure Kubernetes Service (AKS).
+
+## 🏗️ Architecture
+┌─────────────────────────────────────────────────────────────┐
+│ Azure Resource Group │
+│ ┌─────────────────┐ ┌─────────────────┐ ┌──────────────┐ │
+│ │ AKS Cluster │ │ Key Vault │ │ ACR │ │
+│ │ │ │ │ │  │ │
+│ │ Bank of Anthos │ │ - Secrets │ │ │ │
+│ │ Microservices │ │ - Certificates │ │ │ │
+│ └─────────────────┘ └─────────────────┘ └──────────────┘ │
+│ │ │ │
+│ └────────────────────┘ │
+│ Service Principal / Managed Identity │
+└─────────────────────────────────────────────────────────────┘
 
 
-1. # Getting Started
--Clone the Repository
--git clone https://github.com/moshstaq/az-infra-4-bank-of-anthos.git
--cd az-infra-4-bank-of-anthos
-2. # Configure Azure Credentials
--az login
--az account set --subscription "<YOUR_SUBSCRIPTION_ID>"
-3. # Deploy Infrastructure
-4. # Initialize and apply infrastructure
+## 🚀 Features
+
+- **Infrastructure as Code** — Fully automated deployment using Terraform
+- **AKS Cluster** — Managed Kubernetes with configurable node pools
+- **Azure Key Vault** — Secure secrets management integrated with AKS
+- **Service Principal** — RBAC-based authentication for secure access
+- **Network Security** — Virtual network with subnet segmentation
+- **Scalability** — Cluster autoscaler enabled for dynamic workloads
+
+## 📋 Prerequisites
+
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) (v2.50+)
+- [Terraform](https://www.terraform.io/downloads) (v1.0+)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- Azure subscription with Owner/Contributor access
+
+## 📁 Project Structure
+az-infra-4-bank-of-anthos/
+├── main.tf # Root module and provider configuration
+├── variables.tf # Input variables
+├── outputs.tf # Output values
+├── terraform.tfvars # Variable values (gitignored)
+├── modules/
+│ ├── aks/ # AKS cluster module
+│ ├── keyvault/ # Key Vault module
+│ └── ServicePrincipal/ # Identity
+├── scripts/
+│ └── deploy.sh # Deployment helper script
+└── k8s/
+└── bank-of-anthos/ # Kubernetes manifests
+
+## ⚡ Quick Start
+
+### 1. Clone the repository
+
+bash
+git clone https://github.com/moshstaq/az-infra-4-bank-of-anthos.git
+cd az-infra-4-bank-of-anthos 
+### 2. Authenticate with Azure
+az login
+az account set --subscription "<YOUR_SUBSCRIPTION_ID>"
+### 3. Initialize Terraform
 terraform init
-terraform plan
-terraform apply
-### Repository Structure
-├── modules/          
-├── environments/     
-├── scripts/          
-└── README.md
+### 4. Configure variables
+Create a terraform.tfvars file:
+resource_group_name = "rg-bank-of-anthos"
+location            = "uksouth"
+aks_cluster_name    = "aks-bank-of-anthos"
+node_count          = 3
+vm_size             = "Standard_D2s_v3"
+### 5. Deploy infrastructure
+terraform plan -out=tfplan
+terraform apply tfplan
+### 6. Connect to AKS
+az aks get-credentials --resource-group rg-bank-of-anthos --name aks-bank-of-anthos
+kubectl get nodes
+### 7. Deploy Bank of Anthos
+kubectl apply -f k8s/bank-of-anthos/
+🧹 Cleanup
+terraform destroy
+
+👤 Author
+Moshood (moshstaq)
+
+GitHub: @moshstaq
+LinkedIn: moshstaq
