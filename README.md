@@ -48,7 +48,6 @@ This repository provisions the core Azure platform layer — resource group, net
 
 ## 📁 Project Structure
 az-infra-4-bank-of-anthos/
-
     ├── backend.tf          
     ├── provider.tf         
     ├── main.tf            
@@ -56,7 +55,6 @@ az-infra-4-bank-of-anthos/
     ├── outputs.tf          
     ├── resource-rg.tf      
     └── modules/
-
         ├── aks/            
         ├── keyvault/       
         └── serviceprincipal/ 
