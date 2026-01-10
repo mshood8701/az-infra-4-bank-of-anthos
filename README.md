@@ -55,6 +55,7 @@ az-infra-4-bank-of-anthos/
 ├── outputs.tf          
 ├── resource-rg.tf      
 └── modules/
+
     ├── aks/            
     ├── keyvault/       
     └── serviceprincipal/ 
