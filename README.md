@@ -6,19 +6,55 @@
 
 Production-grade Azure infrastructure to deploy Google's [Bank of Anthos](https://github.com/GoogleCloudPlatform/bank-of-anthos) microservices application on Azure Kubernetes Service (AKS).
 
+---
+
 ## 🏗️ Architecture
-┌─────────────────────────────────────────────────────────────┐
-│ Azure Resource Group │
-│ ┌─────────────────┐ ┌─────────────────┐ ┌──────────────┐ │
-│ │ AKS Cluster │ │ Key Vault │ │ ACR │ │
-│ │ │ │ │ │  │ │
-│ │ Bank of Anthos │ │ - Secrets │ │ │ │
-│ │ Microservices │ │ - Certificates │ │ │ │
-│ └─────────────────┘ └─────────────────┘ └──────────────┘ │
-│ │ │ │
-│ └────────────────────┘ │
-│ Service Principal / Managed Identity │
-└─────────────────────────────────────────────────────────────┘
+
+![Architecture Diagram](docs/architecture.png)
+
+| Component | Purpose |
+|-----------|---------|
+| **AKS Cluster** | Hosts Bank of Anthos microservices |
+| **Azure Key Vault** | Stores secrets and certificates securely |
+| **Service Principal** | Provides RBAC-based authentication |
+| **Virtual Network** | Network isolation and security |
+
+---
+
+## 🚀 Features
+
+- **Infrastructure as Code** — Fully automated deployment using Terraform
+- **AKS Cluster** — Managed Kubernetes with configurable node pools
+- **Azure Key Vault** — Secure secrets management integrated with AKS
+- **Service Principal** — RBAC-based authentication for secure access
+- **Network Security** — Virtual network with subnet segmentation
+- **Scalability** — Cluster autoscaler enabled for dynamic workloads
+
+---
+
+## 📋 Prerequisites
+
+| Tool | Version | Installation |
+|------|---------|--------------|
+| Azure CLI | v2.50+ | [Install Guide](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) |
+| Terraform | v1.0+ | [Download](https://www.terraform.io/downloads) |
+| kubectl | Latest | [Install Guide](https://kubernetes.io/docs/tasks/tools/) |
+| Azure Subscription | — | Owner/Contributor access required |
+
+---
+
+## 📁 Project Structure
+az-infra-4-bank-of-anthos/
+│
+├── main.tf # Root module and provider configuration
+├── variables.tf # Input variables
+├── outputs.tf # Output values
+├── terraform.tfvars # Variable values (gitignored)
+│
+├── modules/
+│ ├── aks/ # AKS cluster module
+│ ├── keyvault/ # Key Vault module
+│ └── ServicePrincipal/ # Service Principal identity module
 
 
 ## 🚀 Features
