@@ -62,8 +62,3 @@ az-infra-4-bank-of-anthos/
 
 
 
-👤 Author
-Moshood (moshstaq)
-
-GitHub: @moshstaq
-LinkedIn: moshstaq
